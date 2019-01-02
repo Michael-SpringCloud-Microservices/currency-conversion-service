@@ -1,8 +1,10 @@
 package com.in28minutes.microservices.currencyconversionservice.controller;
 
 import com.in28minutes.microservices.currencyconversionservice.client.CurrencyExchangeClient;
+import com.in28minutes.microservices.currencyconversionservice.client.SayHelloClient;
 import com.in28minutes.microservices.currencyconversionservice.model.CurrencyConversionBean;
 import com.in28minutes.microservices.currencyconversionservice.proxy.CurrencyExchangeServiceProxy;
+import com.in28minutes.microservices.currencyconversionservice.proxy.SayHelloServiceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,12 @@ public class CurrencyConversionController {
 
     @Autowired
     private CurrencyExchangeClient currencyExchangeClient; // using Ribbon with Eureka for client side load balancing
+
+    @Autowired
+    private SayHelloClient sayHelloClient;
+
+    @Autowired
+    private SayHelloServiceProxy sayHelloServiceProxy;
 
     @GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrency(@PathVariable String from,
@@ -46,5 +54,17 @@ public class CurrencyConversionController {
     public String sayHelloToUser(){
         log.info("Inside the CurrencyConversionController - Hi Michael");
         return "Hi Michael";
+    }
+
+    @GetMapping("/hello-string")
+    public String getHelloString(){
+        log.info("Inside the getHelloString of CurrencyConversionController");
+        return sayHelloClient.getHelloString();
+    }
+
+    @GetMapping("/hello-string-feign")
+    public String getHelloStringFeign(){
+        log.info("Inside the getHelloStringFeign of CurrencyConversionController");
+        return sayHelloServiceProxy.sayHelloToUser();
     }
 }
