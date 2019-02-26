@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient(name="currency-exchange-service")
 public interface CurrencyExchangeServiceProxy {
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
-    public CurrencyConversionBean retrieveExchangeValue(@PathVariable("from") String from, @PathVariable("to") String to);
+    public CurrencyConversionBean retrieveExchangeValue(@PathVariable("from") String from, 
+    		@PathVariable("to") String to);
 
 }

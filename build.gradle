@@ -31,12 +31,12 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.springframework.cloud:spring-cloud-starter-config')
-	implementation('org.springframework.cloud:spring-cloud-starter-feign') //is for spring-boot with version lesser than 2.0.0
-	//implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+	//implementation('org.springframework.cloud:spring-cloud-starter-feign') 
+	implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
 	implementation('org.springframework.cloud:spring-cloud-starter-ribbon')
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
-	//implementation('org.springframework.cloud:spring-cloud-starter-eureka') //is for spring-boot with version lesser than 2.0.0
 	implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+	//implementation('org.springframework.cloud:spring-cloud-starter-eureka')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 

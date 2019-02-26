@@ -23,7 +23,7 @@ public class CurrencyExchangeClient {
     RestTemplate restTemplate;
 
     public CurrencyConversionBean convertCurrency(String from,String to,BigDecimal quantity){
-        log.info("from value is " + from + "and to value is " + to + "and then the quantity is " + quantity);
+        log.info("From value is " + from + "and To value is " + to + "and then the quantity is " + quantity);
         Map<String,String> uriVariables = new HashMap<>();
         uriVariables.put("from",from);
         uriVariables.put("to",to);
