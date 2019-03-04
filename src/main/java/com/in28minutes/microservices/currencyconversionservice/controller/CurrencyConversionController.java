@@ -4,7 +4,9 @@ import com.in28minutes.microservices.currencyconversionservice.client.CurrencyEx
 import com.in28minutes.microservices.currencyconversionservice.client.SayHelloClient;
 import com.in28minutes.microservices.currencyconversionservice.model.CurrencyConversionBean;
 import com.in28minutes.microservices.currencyconversionservice.proxy.CurrencyExchangeServiceProxy;
+import com.in28minutes.microservices.currencyconversionservice.proxy.CurrencyExchangeZuulProxy;
 import com.in28minutes.microservices.currencyconversionservice.proxy.SayHelloServiceProxy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,10 @@ public class CurrencyConversionController {
 
     @Autowired
     private CurrencyExchangeServiceProxy currencyExchangeServiceProxy; // using Feign with Ribbon and Eureka for client side load balancing
+    
+    @Autowired
+    private CurrencyExchangeZuulProxy currencyExchangeZuulProxy; // using Feign with Ribbon and Eureka for client side load balancing via Zuul
+    
 
     @Autowired
     private CurrencyExchangeClient currencyExchangeClient; // using Ribbon with Eureka for client side load balancing
@@ -38,6 +44,12 @@ public class CurrencyConversionController {
        return currencyExchangeClient.convertCurrency(from,to,quantity);
     }
 
+    @GetMapping("/currency-converter-zuul/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversionBean convertCurrencyViaZuul(@PathVariable String from,
+                                                  @PathVariable String to,
+                                                  @PathVariable BigDecimal quantity){
+       return currencyExchangeClient.convertCurrencyViaZuul(from,to,quantity);
+    }
 
     @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from,
@@ -49,6 +61,18 @@ public class CurrencyConversionController {
         return new CurrencyConversionBean(response.getId(),from,to, response.getConversionMultiple(),
                 quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
     }
+    
+    @GetMapping("/currency-converter-feign-zuul/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversionBean convertCurrencyFeignViaZuul(@PathVariable String from,
+                                                       @PathVariable String to,
+                                                       @PathVariable BigDecimal quantity){
+
+        CurrencyConversionBean response = currencyExchangeZuulProxy.retrieveExchangeValue(from,to);
+
+        return new CurrencyConversionBean(response.getId(),from,to, response.getConversionMultiple(),
+                quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
+    }
+
 
     @GetMapping("/")
     public String sayHelloToUser(){

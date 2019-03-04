@@ -33,4 +33,16 @@ public class CurrencyExchangeClient {
         return new CurrencyConversionBean(response.getId(),from,to, response.getConversionMultiple(),
                 quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
     }
+    
+    public CurrencyConversionBean convertCurrencyViaZuul(String from,String to,BigDecimal quantity){
+        log.info("From value is " + from + "and To value is " + to + "and then the quantity is " + quantity);
+        Map<String,String> uriVariables = new HashMap<>();
+        uriVariables.put("from",from);
+        uriVariables.put("to",to);
+        ResponseEntity<CurrencyConversionBean> responseEntity = restTemplate.getForEntity("http://netflix-zuul-api-gateway-server/currency-exchange-service/currency-exchange/from/{from}/to/{to}",
+                CurrencyConversionBean.class, uriVariables);
+        CurrencyConversionBean response = responseEntity.getBody();
+        return new CurrencyConversionBean(response.getId(),from,to, response.getConversionMultiple(),
+                quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
+    }
 }
