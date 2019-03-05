@@ -1,7 +1,8 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.18.RELEASE'
+		//springBootVersion = '1.5.18.RELEASE'
 		//springBootVersion = '2.0.7.RELEASE'
+		springBootVersion = '2.1.2.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -14,7 +15,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-//apply plugin: 'io.spring.dependency-management'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'com.in28minutes.microservices'
 version = '0.0.1-SNAPSHOT'
@@ -22,10 +23,12 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }	
 }
 
-ext['springCloudVersion'] = 'Edgware.SR5'
+//ext['springCloudVersion'] = 'Edgware.SR5'
 //ext['springCloudVersion'] = 'Finchley.SR2'
+ext['springCloudVersion'] = 'Greenwich.RELEASE'
 
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
@@ -33,10 +36,13 @@ dependencies {
 	implementation('org.springframework.cloud:spring-cloud-starter-config')
 	//implementation('org.springframework.cloud:spring-cloud-starter-feign') 
 	implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
-	implementation('org.springframework.cloud:spring-cloud-starter-ribbon')
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+	
+	// The following dependency is for generating a unique id for each request 
+	// to trace it among multiple components of micro service in log
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
-	//implementation('org.springframework.cloud:spring-cloud-starter-eureka')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 

@@ -36,6 +36,9 @@ public class CurrencyConversionController {
 
     @Autowired
     private SayHelloServiceProxy sayHelloServiceProxy;
+    
+    
+    
 
     @GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrency(@PathVariable String from,
@@ -43,13 +46,24 @@ public class CurrencyConversionController {
                                                   @PathVariable BigDecimal quantity){
        return currencyExchangeClient.convertCurrency(from,to,quantity);
     }
+    
+    
+    
+    
 
     @GetMapping("/currency-converter-zuul/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrencyViaZuul(@PathVariable String from,
                                                   @PathVariable String to,
                                                   @PathVariable BigDecimal quantity){
-       return currencyExchangeClient.convertCurrencyViaZuul(from,to,quantity);
+    	
+    	CurrencyConversionBean response = currencyExchangeClient.convertCurrencyViaZuul(from,to,quantity);
+        log.info("Currency Conversion Bean Details at zuul :{}" , response);
+       return response;
     }
+    
+    
+    
+    
 
     @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from,
@@ -62,17 +76,25 @@ public class CurrencyConversionController {
                 quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
     }
     
+    
+    
+    
+    
     @GetMapping("/currency-converter-feign-zuul/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrencyFeignViaZuul(@PathVariable String from,
                                                        @PathVariable String to,
                                                        @PathVariable BigDecimal quantity){
 
         CurrencyConversionBean response = currencyExchangeZuulProxy.retrieveExchangeValue(from,to);
+        
+        log.info("Currency Conversion Bean Details at feign-zuul :{}" , response);
 
         return new CurrencyConversionBean(response.getId(),from,to, response.getConversionMultiple(),
                 quantity,quantity.multiply(response.getConversionMultiple()),response.getPort());
     }
 
+    
+    
 
     @GetMapping("/")
     public String sayHelloToUser(){
