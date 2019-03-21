@@ -96,7 +96,7 @@ public class CurrencyConversionController {
     
     
 
-    @GetMapping("/")
+    @GetMapping("/sayHello")
     public String sayHelloToUser(){
         log.info("Inside the CurrencyConversionController - Hi Michael");
         return "Hi Michael";

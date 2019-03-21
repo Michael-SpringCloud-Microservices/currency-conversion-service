@@ -23,7 +23,7 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }	
+	maven { url 'https://repo.spring.io/milestone' }
 }
 
 //ext['springCloudVersion'] = 'Edgware.SR5'
@@ -34,23 +34,26 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.springframework.cloud:spring-cloud-starter-config')
-	//implementation('org.springframework.cloud:spring-cloud-starter-feign') 
+	//implementation('org.springframework.cloud:spring-cloud-starter-feign')
 	implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
-	
+
 	// The following dependency is for generating a unique id for each request
 	// to trace it among multiple micro services's log
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-	
-	// For logging log messages with the specific format which could be understood by zipkin  
+
+	// For logging log messages with the specific format which could be understood by zipkin
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
-	
+
 	// For connecting micro services to Rabbit MQ message broker and publish logs messages to default Exchange
 	// Which will be delivered to Queue Zipkin
 	// This is an implementation of Spring Clould Bus
 	implementation 'org.springframework.amqp:spring-rabbit'
-	
-	
+
+	// Spring Boot version lesser than 2.1.0, please use version of 2.4.0 for swagger
+	implementation 'io.springfox:springfox-swagger2:2.6.1'
+	implementation 'io.springfox:springfox-swagger-ui:2.6.1'
+
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
