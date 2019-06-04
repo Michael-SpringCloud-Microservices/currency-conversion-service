@@ -17,7 +17,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-// The following annotation is for making a call to target service via Zuul API Gateway
+// The following annotation is for making the call to target service via Zuul API Gateway
 @FeignClient(name="netflix-zuul-api-gateway-server")
 @RibbonClient(name="currency-exchange-service")
 public interface CurrencyExchangeZuulProxy {
