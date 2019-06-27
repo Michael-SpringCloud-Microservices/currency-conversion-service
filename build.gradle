@@ -48,6 +48,7 @@ dependencies {
 	// For connecting micro services to Rabbit MQ message broker and publish logs messages to default Exchange with Zipkin as routing key
 	// Which will be delivered to Queue Zipkin
 	// This is an implementation of Spring Clould Bus
+	//implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'	
 	implementation 'org.springframework.amqp:spring-rabbit'
 
 	// Spring Boot version lesser than 2.1.0, please use version of 2.4.0 for swagger
